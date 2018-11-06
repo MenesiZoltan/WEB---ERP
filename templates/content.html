@@ -2,9 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>WEB ERP {{  module  }} Database Content </title>
 </head>
 <body>
 
+<p>{{  module  }} Database</p>
+
+<table>
+
+
+{% for x in table_titles %}
+    <th>  {{  x  }}  </th>
+{% endfor %}
+
+
+{% for element in content %}
+    <tr>
+        {% for key in element %}
+        <td>{{  element[key]  }}</td>
+        {% endfor %}
+    </tr>
+{% endfor %}
+
+
+</table>
 </body>
 </html>

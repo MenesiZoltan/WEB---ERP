@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WEB ERP - Add new Item</title>
+</head>
+<body>
+
+    <p>Add new item to {{  module  }} Database</p>
+
+    <form action="/{{  route_name  }}/add_item" method="post">
+
+    {% for x in table_titles %}
+
+        <p>{{  x  }} <input type="text" name="{{  x  }}"></p>
+
+    {% endfor %}
+
+        <input type="submit" value="Submit">
+
+    </form>
+</body>
+</html>
