@@ -1,5 +1,5 @@
 from server import app
-from flask import render_template, request
+from flask import render_template, request, redirect
 import data_manager
 
 @app.route("/inventory")
@@ -44,7 +44,15 @@ def add_item_inventory():
         "Durability"]
 
     if request.method == "POST":
-        pass
+        new_entry = {
+            "id": data_manager.generate_item_id(route_name),
+            "name": request.form["Item Name"],
+            "manufacturer": request.form["Manufacturer"],
+            "year": request.form["Purchase Year"],
+            "durability": request.form["Durability"]}
+
+        data_manager.add_new_element_to_database(new_entry, route_name)
+        return redirect("/inventory")
     return render_template(
         "item.html",
         route_name=route_name,

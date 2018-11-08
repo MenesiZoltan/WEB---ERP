@@ -148,12 +148,44 @@ def add_new_element_to_database(cursor, new_entry, table):
                         VALUES (%(id)s, %(name)s, %(dob)s)
                         ''',
                        {'id': id, 'name': name, 'dob': dob});
+
     elif table == "inventory":
-        pass
+        id = new_entry["id"]
+        name = new_entry["name"]
+        manufacturer = new_entry["manufacturer"]
+        year = new_entry["year"]
+        durability = new_entry["durability"]
+        cursor.execute('''
+                        INSERT INTO inventory
+                        VALUES (%(id)s, %(name)s, %(manufacturer)s, %(year)s,  %(durability)s)
+                        ''',
+                       {'id': id, 'name': name, 'manufacturer': manufacturer, 'year': year, 'durability': durability});
+
     elif table == "sales":
-        pass
+        id = new_entry["id"]
+        title = new_entry["title"]
+        price = new_entry["price"]
+        month = new_entry["month"]
+        day = new_entry["day"]
+        year = new_entry["year"]
+        customer_id = new_entry["customer_id"]
+        cursor.execute('''
+                        INSERT INTO sales
+                        VALUES (%(id)s, %(title)s, %(price)s, %(month)s, %(day)s, %(year)s, %(customer_id)s)
+                        ''',
+                       {'id': id, 'title': title, 'price': price, 'month': month, 'day': day, 'year': year, 'customer_id': customer_id});
+
     elif table == "store":
-        pass
+        id = new_entry["id"]
+        title = new_entry["title"]
+        manufacturer = new_entry["manufacturer"]
+        price = new_entry["price"]
+        stock = new_entry["stock"]
+        cursor.execute('''
+                        INSERT INTO store
+                        VALUES (%(id)s, %(title)s, %(manufacturer)s, %(price)s, %(stock)s)
+                        ''',
+                       {'id': id, 'title': title, 'manufacturer': manufacturer, 'price': price, 'stock': stock});
 
 
 

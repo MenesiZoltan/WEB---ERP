@@ -1,5 +1,5 @@
 from server import app
-from flask import render_template, request
+from flask import render_template, request, redirect
 import data_manager
 
 
@@ -44,7 +44,15 @@ def add_item_store():
         "Stock"]
 
     if request.method == "POST":
-        pass
+        new_entry = {
+            "id": data_manager.generate_item_id(route_name),
+            "title": request.form["Game Title"],
+            "manufacturer": request.form["Manufacturer"],
+            "price": request.form["Price"],
+            "stock": request.form["Stock"]}
+
+        data_manager.add_new_element_to_database(new_entry, route_name)
+        return redirect("/store")
     return render_template(
         "item.html",
         route_name=route_name,
