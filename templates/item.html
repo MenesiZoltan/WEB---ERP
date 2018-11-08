@@ -4,6 +4,7 @@
     <title>WEB ERP - Add new Item</title>
 </head>
 <body>
+{% if page_action == "ADD" %}
 
     <p>Add new item to {{  module  }} Database</p>
 
@@ -18,5 +19,23 @@
         <input type="submit" value="Submit">
 
     </form>
+
+{% elif page_action == "UPDATE" %}
+
+    <p>Add new item to {{  module  }} Database</p>
+
+    <form action="/{{  route_name  }}/update_item/{{  item_id  }}" method="post">
+
+    {% for x in range(table_titles| length) %}
+
+        <p>{{  table_titles[x]  }} <input type="text" name="{{  table_titles[x]  }}" value="{{  entry_details[x]  }}"></p>
+
+    {% endfor %}
+
+        <input type="submit" value="Submit">
+
+    </form>
+
+{% endif %}
 </body>
 </html>

@@ -13,7 +13,12 @@
 <ul>
     <li><a href="/{{  route_name  }}/database_content">Show Database Content</a></li>
     <li><a href="/{{  route_name  }}/add_item">Add new item</a></li>
-    <li>Update item</li>
+    <li> Update Item
+    <form action="/{{  route_name  }}/update_item" method="get">
+        <input type="text" name="item_id">
+        <input type="submit" value="GO">
+    </form>
+    </li>
     <li>Remove item</li>
     <br><li>Other elements will be added later</li>
 </ul>

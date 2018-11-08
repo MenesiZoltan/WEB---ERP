@@ -57,4 +57,47 @@ def add_item_accounting():
         "item.html",
         route_name=route_name,
         module=module,
-        table_titles=table_titles)
+        table_titles=table_titles,
+        page_action="ADD")
+
+@app.route("/accounting/update_item", defaults={"id": None}, methods=["GET", "POST"])
+@app.route("/accounting/update_item/<id>", methods=["GET", "POST"])
+def update_item_accounting(id):
+    route_name = "accounting"
+    module = "Accounting"
+    if request.method == "GET":
+        table_titles = [
+            "Transaction Month",
+            "Transaction Day",
+            "Transaction Year",
+            "Transaction Type",
+            "Transaction Value"]
+        item_id = str(request.args.get("item_id"))
+        print(item_id)
+        entry_details = data_manager.get_data_by_id(item_id, route_name)
+        #if item_id not in entry_details:
+            #flash()
+            #return redirect(request.referrer)
+        #else:
+        return render_template(
+            "item.html",
+            route_name=route_name,
+            module=module,
+            table_titles=table_titles,
+            item_id=item_id,
+            entry_details=entry_details,
+            page_action="UPDATE")
+    else:
+        id = id + "#&"
+        entry_details = {
+            "id": id,
+            "month": request.form["Transaction Month"],
+            "day": request.form["Transaction Day"],
+            "year": request.form["Transaction Year"],
+            "type": request.form["Transaction Type"],
+            "value": request.form["Transaction Value"]}
+        data_manager.update_by_id(entry_details, route_name)
+        print(entry_details)
+        return redirect("/accounting")
+
+

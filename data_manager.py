@@ -188,12 +188,62 @@ def add_new_element_to_database(cursor, new_entry, table):
                        {'id': id, 'title': title, 'manufacturer': manufacturer, 'price': price, 'stock': stock});
 
 
+@database_common.connection_handler
+def get_data_by_id(cursor, entry_id, table):
+    details = []
+    if table == "accounting":
+        cursor.execute('''
+                        SELECT * FROM accounting
+                        WHERE transaction_id= %(entry_id)s
+                        ''',
+                       {'entry_id': entry_id}),
+        entry_details = cursor.fetchall()
+        for element in entry_details:
+            for key in element:
+                details.append(element[key])
+        del details[0]
+        return details
+
+    elif table == "crm":
+        pass
+    elif table == "human_resources":
+        pass
+    elif table == "inventory":
+        pass
+    elif table == "sales":
+        pass
+    elif table == "store":
+        pass
 
 
+@database_common.connection_handler
+def update_by_id(cursor, entry_details, table):
+    if table == "accounting":
+        id = entry_details["id"]
+        month = entry_details["month"]
+        day = entry_details["day"]
+        year = entry_details["year"]
+        type = entry_details["type"]
+        value = entry_details["value"]
+        cursor.execute('''
+                        UPDATE accounting
+                        SET transaction_month = %(month)s, transaction_day = %(day)s,
+                        transaction_year = %(year)s, transaction_type = %(type)s,
+                        transaction_value = %(value)s
+                        WHERE transaction_id = %(id)s;
+                         ''',
+                       {'id': id, 'month': month, 'day': day, 'year': year, 'type': type, 'value': value})
 
-
-
-
+    if table == "crm":
+        pass
+    if table == "human_resources":
+        pass
+    if table == "inventory":
+        pass
+    if table == "sales":
+        pass
+    if table == "store":
+        pass
 
 
 
