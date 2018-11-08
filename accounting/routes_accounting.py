@@ -1,5 +1,5 @@
 from server import app
-from flask import render_template, request
+from flask import render_template, request, redirect
 import data_manager
 
 @app.route("/accounting")
@@ -37,7 +37,6 @@ def add_item_accounting():
     route_name = "accounting"
     module = "Accounting"
     table_titles = [
-        "Transaction ID",
         "Transaction Month",
         "Transaction Day",
         "Transaction Year",
@@ -45,7 +44,15 @@ def add_item_accounting():
         "Transaction Value"]
 
     if request.method == "POST":
-        pass
+        new_entry = {
+            "id": data_manager.generate_item_id(route_name),
+            "month": request.form["Transaction Month"],
+            "day": request.form["Transaction Day"],
+            "year": request.form["Transaction Year"],
+            "type": request.form["Transaction Type"],
+            "value": request.form["Transaction Value"]}
+        data_manager.add_new_element_to_database(new_entry, route_name)
+        return redirect("/accounting")
     return render_template(
         "item.html",
         route_name=route_name,

@@ -39,7 +39,6 @@ def add_item_sales():
     route_name = "sales"
     module = "Sales"
     table_titles = [
-        "ID",
         "Title of Game Sold",
         "Price",
         "Month of Sale",

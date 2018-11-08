@@ -38,7 +38,6 @@ def add_item_inventory():
     route_name = "inventory"
     module = "Inventory"
     table_titles = [
-        "Item ID",
         "Item Name",
         "Manufacturer",
         "Purchase Year",

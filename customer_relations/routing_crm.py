@@ -1,5 +1,5 @@
 from server import app
-from flask import render_template, request
+from flask import render_template, request, redirect
 import data_manager
 
 
@@ -36,13 +36,18 @@ def add_item_crm():
     route_name = "crm"
     module = "Customer Relations Management"
     table_titles = [
-        "Customer ID",
         "Customer Name",
         "Customer E-mail",
         "Customer Subscription"]
 
     if request.method == "POST":
-        pass
+        new_entry = {
+            "id": data_manager.generate_item_id(route_name),
+            "name": request.form["Customer Name"],
+            "email": request.form["Customer E-mail"],
+            "subscription": request.form["Customer Subscription"]}
+        data_manager.add_new_element_to_database(new_entry, route_name)
+        return redirect("/crm")
     return render_template(
         "item.html",
         route_name=route_name,

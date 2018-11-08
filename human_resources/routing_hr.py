@@ -1,5 +1,5 @@
 from server import app
-from flask import render_template, request
+from flask import render_template, request, redirect
 import data_manager
 
 
@@ -35,12 +35,17 @@ def add_item_hr():
     route_name = "human_resources"
     module = "Human Resources"
     table_titles = [
-        "Employee Id",
         "Employee Name",
-        "Year of Birth",]
+        "Year of Birth"]
 
     if request.method == "POST":
-        pass
+        new_entry = {
+            "id": data_manager.generate_item_id(route_name),
+            "name": request.form["Employee Name"],
+            "year_of_birth": request.form["Year of Birth"]}
+
+        data_manager.add_new_element_to_database(new_entry, route_name)
+        return redirect("/human_resources")
     return render_template(
         "item.html",
         route_name=route_name,

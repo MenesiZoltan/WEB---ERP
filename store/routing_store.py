@@ -38,7 +38,6 @@ def add_item_store():
     route_name = "store"
     module = "Store"
     table_titles = [
-        "Item ID",
         "Game Title",
         "Manufacturer",
         "Price",
