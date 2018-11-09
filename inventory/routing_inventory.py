@@ -97,3 +97,10 @@ def update_item_inventory(id):
 
         data_manager.update_by_id(entry_details, route_name)
         return redirect("/inventory")
+
+@app.route("/inventory/delete_item", methods=["POST"])
+def delete_item_inventory():
+    route_name = "inventory"
+    item_id = request.form["item_id"]
+    data_manager.delete_item_by_id(item_id, route_name)
+    return redirect("/inventory")

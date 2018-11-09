@@ -86,3 +86,11 @@ def update_item_hr(id):
 
         data_manager.update_by_id(entry_details, route_name)
         return redirect("/human_resources")
+
+
+@app.route("/human_resources/delete_item", methods=["POST"])
+def delete_item_hr():
+    route_name = "human_resources"
+    item_id = request.form["item_id"]
+    data_manager.delete_item_by_id(item_id, route_name)
+    return redirect("/human_resources")

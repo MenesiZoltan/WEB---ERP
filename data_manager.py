@@ -71,7 +71,6 @@ def generate_random_id(sql_ids):
             return generated + "#&"
 
 
-
 @database_common.connection_handler
 def generate_item_id(cursor, table):
     if table == "accounting":
@@ -341,6 +340,51 @@ def update_by_id(cursor, entry_details, table):
                         WHERE item_id= %(id)s;
                         ''',
                        {'id': id, 'title': title, 'manufacturer': manufacturer, 'price': price, 'stock': stock})
+
+
+@database_common.connection_handler
+def delete_item_by_id(cursor, entry_id, table):
+    if table == "accounting":
+        cursor.execute('''
+                        DELETE FROM accounting
+                        WHERE transaction_id= %(entry_id)s;
+                        ''',
+                       {'entry_id': entry_id})
+
+    elif table == "crm":
+        cursor.execute('''
+                        DELETE FROM crm
+                        WHERE customer_id= %(entry_id)s;
+                        ''',
+                       {'entry_id': entry_id})
+
+    elif table == "human_resources":
+        cursor.execute('''
+                        DELETE FROM hr
+                        WHERE employee_id= %(entry_id)s;
+                        ''',
+                       {'entry_id': entry_id})
+
+    elif table == "inventory":
+        cursor.execute('''
+                        DELETE FROM inventory
+                        WHERE inventory_id= %(entry_id)s;
+                        ''',
+                       {'entry_id': entry_id})
+
+    elif table == "sales":
+        cursor.execute('''
+                        DELETE FROM sales
+                        WHERE sales_id= %(entry_id)s;
+                        ''',
+                       {'entry_id': entry_id})
+
+    elif table == "store":
+        cursor.execute('''
+                        DELETE FROM store
+                        WHERE item_id= %(entry_id)s;
+                        ''',
+                       {'entry_id': entry_id})
 
 
 

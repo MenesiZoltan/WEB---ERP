@@ -100,4 +100,11 @@ def update_item_accounting(id):
         print(entry_details)
         return redirect("/accounting")
 
+@app.route("/accounting/delete_item", methods=["POST"])
+def delete_item_accoounting():
+    route_name = "accounting"
+    item_id = request.form["item_id"]
+    data_manager.delete_item_by_id(item_id, route_name)
+    return redirect("/accounting")
+
 

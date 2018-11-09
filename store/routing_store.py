@@ -96,3 +96,11 @@ def update_item_store(id):
             "stock": request.form["Stock"]}
         data_manager.update_by_id(entry_details, route_name)
         return redirect("/store")
+
+
+@app.route("/store/delete_item", methods=["POST"])
+def delete_item_store():
+    route_name = "store"
+    item_id = request.form["item_id"]
+    data_manager.delete_item_by_id(item_id, route_name)
+    return redirect("/store")

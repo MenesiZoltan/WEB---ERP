@@ -19,7 +19,13 @@
         <input type="submit" value="GO">
     </form>
     </li>
-    <li>Remove item</li>
+    <li>
+        Remove item
+        <form action="/{{  route_name  }}/delete_item" method="post">
+            <input type="text" name="item_id">
+            <input type="submit" value="DELETE">
+        </form>
+    </li>
     <br><li>Other elements will be added later</li>
 </ul>
 
