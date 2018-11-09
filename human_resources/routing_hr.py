@@ -51,3 +51,38 @@ def add_item_hr():
         route_name=route_name,
         module=module,
         table_titles=table_titles)
+
+
+@app.route("/human_resources/update_item", defaults={"id": None}, methods=["GET", "POST"])
+@app.route("/human_resources/update_item/<id>", methods=["GET", "POST"])
+def update_item_hr(id):
+    route_name = "human_resources"
+    module = "Human Resources"
+    if request.method == "GET":
+        table_titles = [
+            "Employee Name",
+            "Year of Birth"]
+
+        item_id = str(request.args.get("item_id"))
+        entry_details = data_manager.get_data_by_id(item_id, route_name)
+        #if item_id not in entry_details:
+            #flash()
+            #return redirect(request.referrer)
+        #else:
+        return render_template(
+            "item.html",
+            route_name=route_name,
+            module=module,
+            table_titles=table_titles,
+            item_id=item_id,
+            entry_details=entry_details,
+            page_action="UPDATE")
+    else:
+        id = id + "#&"
+        entry_details = {
+            "id": id,
+            "name": request.form["Employee Name"],
+            "year_of_birth": request.form["Year of Birth"]}
+
+        data_manager.update_by_id(entry_details, route_name)
+        return redirect("/human_resources")

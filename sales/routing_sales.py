@@ -63,3 +63,46 @@ def add_item_sales():
         route_name=route_name,
         module=module,
         table_titles=table_titles)
+
+
+@app.route("/sales/update_item", defaults={"id": None}, methods=["GET", "POST"])
+@app.route("/sales/update_item/<id>", methods=["GET", "POST"])
+def update_item_sales(id):
+    route_name = "sales"
+    module = "Sales"
+    if request.method == "GET":
+        table_titles = [
+            "Title of Game Sold",
+            "Price",
+            "Month of Sale",
+            "Day of Sale",
+            "Year of Sale",
+            "Customer ID"]
+
+        item_id = str(request.args.get("item_id"))
+        entry_details = data_manager.get_data_by_id(item_id, route_name)
+        #if item_id not in entry_details:
+            #flash()
+            #return redirect(request.referrer)
+        #else:
+        return render_template(
+            "item.html",
+            route_name=route_name,
+            module=module,
+            table_titles=table_titles,
+            item_id=item_id,
+            entry_details=entry_details,
+            page_action="UPDATE")
+    else:
+        id = id + "#&"
+        entry_details = {
+            "id": data_manager.generate_item_id(route_name),
+            "title": request.form["Title of Game Sold"],
+            "price": request.form["Price"],
+            "month": request.form["Month of Sale"],
+            "day": request.form["Day of Sale"],
+            "year": request.form["Year of Sale"],
+            "customer_id": request.form["Customer ID"]}
+
+        data_manager.update_by_id(entry_details, route_name)
+        return redirect("/sales")

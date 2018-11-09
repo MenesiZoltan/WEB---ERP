@@ -198,22 +198,52 @@ def get_data_by_id(cursor, entry_id, table):
                         ''',
                        {'entry_id': entry_id}),
         entry_details = cursor.fetchall()
-        for element in entry_details:
-            for key in element:
-                details.append(element[key])
-        del details[0]
-        return details
 
     elif table == "crm":
-        pass
+        cursor.execute('''
+                        SELECT * FROM crm
+                        WHERE customer_id= %(entry_id)s
+                        ''',
+                       {'entry_id': entry_id}),
+        entry_details = cursor.fetchall()
+
     elif table == "human_resources":
-        pass
+        cursor.execute('''
+                        SELECT * FROM hr
+                        WHERE employee_id= %(entry_id)s
+                        ''',
+                       {'entry_id': entry_id}),
+        entry_details = cursor.fetchall()
+
     elif table == "inventory":
-        pass
+        cursor.execute('''
+                        SELECT * FROM inventory
+                        WHERE inventory_id= %(entry_id)s
+                        ''',
+                       {'entry_id': entry_id}),
+        entry_details = cursor.fetchall()
+
     elif table == "sales":
-        pass
+        cursor.execute('''
+                        SELECT * FROM sales
+                        WHERE sales_id= %(entry_id)s
+                        ''',
+                       {'entry_id': entry_id}),
+        entry_details = cursor.fetchall()
+
     elif table == "store":
-        pass
+        cursor.execute('''
+                        SELECT * FROM store
+                        WHERE item_id= %(entry_id)s
+                        ''',
+                       {'entry_id': entry_id}),
+        entry_details = cursor.fetchall()
+
+    for element in entry_details:
+        for key in element:
+            details.append(element[key])
+    del details[0]
+    return details
 
 
 @database_common.connection_handler
@@ -235,15 +265,83 @@ def update_by_id(cursor, entry_details, table):
                        {'id': id, 'month': month, 'day': day, 'year': year, 'type': type, 'value': value})
 
     if table == "crm":
-        pass
+        id = entry_details["id"]
+        name = entry_details["name"]
+        email = entry_details["email"]
+        subscription = entry_details["subscription"]
+        cursor.execute('''
+                        UPDATE crm
+                        SET customer_name = %(name)s,
+                        customer_email = %(email)s,
+                        customer_subscribed = %(subscription)s
+                        WHERE customer_id= %(id)s;
+                        ''',
+                       {'id': id, 'name': name, 'email': email, 'subscription': subscription})
+
+
     if table == "human_resources":
-        pass
+        id = entry_details["id"]
+        name = entry_details["name"]
+        year_of_birth = entry_details["year_of_birth"]
+        cursor.execute('''
+                        UPDATE hr
+                        SET employee_name= %(name)s,
+                        year_of_birth= %(year_of_birth)s
+                        WHERE employee_id= %(id)s;
+                        ''',
+                       {'id': id, 'name': name, 'year_of_birth': year_of_birth})
+
     if table == "inventory":
-        pass
+        id = entry_details["id"]
+        name = entry_details["name"]
+        manufacturer = entry_details["manufacturer"]
+        year = entry_details["year"]
+        durability = entry_details["durability"]
+        cursor.execute('''
+                        UPDATE inventory
+                        SET item_name= %(name)s,
+                        manufacturer= %(manufacturer)s,
+                        purchase_year= %(year)s,
+                        durability= %(durability)s
+                        WHERE inventory_id = %(id)s;
+                        ''',
+                       {'id': id, 'name': name, 'manufacturer': manufacturer, 'year': year, 'durability': durability})
     if table == "sales":
-        pass
+        id = entry_details["id"]
+        title = entry_details["title"]
+        price = entry_details["price"]
+        month = entry_details["month"]
+        day = entry_details["day"]
+        year = entry_details["year"]
+        customer_id = entry_details["customer_id"]
+        cursor.execute('''
+                        UPDATE sales
+                        SET title_of_game_sold= %(title)s,
+                        price_of_sale= %(price)s,
+                        month_of_sale= %(month)s,
+                        day_of_sale= %(day)s,
+                        year_of_sale= %(year)s,
+                        customer_id= %(customer_id)s
+                        WHERE sales_id= %(id)s;
+                        ''',
+                       {'id': id, 'title': title, 'price': price, 'month': month, 'day': day, 'year': year, 'customer_id': customer_id})
+
     if table == "store":
-        pass
+        id = entry_details["id"]
+        title = entry_details["title"]
+        manufacturer = entry_details["manufacturer"]
+        price = entry_details["price"]
+        stock = entry_details["stock"]
+        cursor.execute('''
+                        UPDATE store
+                        SET game_title= %(title)s,
+                        manufacturer= %(manufacturer)s,
+                        price= %(price)s,
+                        stock= %(stock)s
+                        WHERE item_id= %(id)s;
+                        ''',
+                       {'id': id, 'title': title, 'manufacturer': manufacturer, 'price': price, 'stock': stock})
+
 
 
 
