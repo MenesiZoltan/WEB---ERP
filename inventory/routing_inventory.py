@@ -1,6 +1,7 @@
 from server import app
 from flask import render_template, request, redirect
 import data_manager
+import common
 
 @app.route("/inventory")
 def start_module_inventory():
@@ -18,12 +19,7 @@ def show_inventory_table():
     module = "Inventory"
     table = "inventory"
     content = data_manager.get_module_content(table)
-    table_titles = [
-        "Item ID",
-        "Item Name",
-        "Manufacturer",
-        "Purchase Year",
-        "Durability"]
+    table_titles = common.fetch_module_titles(module)
 
     return render_template(
         "content.html",
@@ -37,11 +33,7 @@ def show_inventory_table():
 def add_item_inventory():
     route_name = "inventory"
     module = "Inventory"
-    table_titles = [
-        "Item Name",
-        "Manufacturer",
-        "Purchase Year",
-        "Durability"]
+    table_titles = common.fetch_module_titles(module)[1:]
 
     if request.method == "POST":
         new_entry = {
@@ -57,7 +49,8 @@ def add_item_inventory():
         "item.html",
         route_name=route_name,
         module=module,
-        table_titles=table_titles)
+        table_titles=table_titles,
+        page_action="ADD")
 
 
 @app.route("/inventory/update_item", defaults={"id": None}, methods=["GET", "POST"])
@@ -66,11 +59,7 @@ def update_item_inventory(id):
     route_name = "inventory"
     module = "Inventory"
     if request.method == "GET":
-        table_titles = [
-            "Item Name",
-            "Manufacturer",
-            "Purchase Year",
-            "Durability"]
+        table_titles = common.fetch_module_titles(module)[1:]
 
         item_id = str(request.args.get("item_id"))
         entry_details = data_manager.get_data_by_id(item_id, route_name)

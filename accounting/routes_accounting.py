@@ -1,6 +1,7 @@
 from server import app
 from flask import render_template, request, redirect
 import data_manager
+import common
 
 @app.route("/accounting")
 def start_module_accounting():
@@ -17,13 +18,7 @@ def show_accounting_table():
     module = "Accounting"
     table = "accounting"
     content = data_manager.get_module_content(table)
-    table_titles = [
-        "Transaction ID",
-        "Transaction Month",
-        "Transaction Day",
-        "Transaction Year",
-        "Transaction Type",
-        "Transaction Value"]
+    table_titles = common.fetch_module_titles(module)
 
     return render_template(
         "content.html",
@@ -36,12 +31,7 @@ def show_accounting_table():
 def add_item_accounting():
     route_name = "accounting"
     module = "Accounting"
-    table_titles = [
-        "Transaction Month",
-        "Transaction Day",
-        "Transaction Year",
-        "Transaction Type",
-        "Transaction Value"]
+    table_titles = common.fetch_module_titles(module)[1:]
 
     if request.method == "POST":
         new_entry = {
@@ -66,14 +56,8 @@ def update_item_accounting(id):
     route_name = "accounting"
     module = "Accounting"
     if request.method == "GET":
-        table_titles = [
-            "Transaction Month",
-            "Transaction Day",
-            "Transaction Year",
-            "Transaction Type",
-            "Transaction Value"]
+        table_titles = common.fetch_module_titles(module)[1:]
         item_id = str(request.args.get("item_id"))
-        print(item_id)
         entry_details = data_manager.get_data_by_id(item_id, route_name)
         #if item_id not in entry_details:
             #flash()

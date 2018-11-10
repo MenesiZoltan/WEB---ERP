@@ -1,6 +1,7 @@
 from server import app
 from flask import render_template, request, redirect
 import data_manager
+import common
 
 
 @app.route("/human_resources")
@@ -18,10 +19,7 @@ def show_hr_table():
     module = "Human Resources"
     table = "hr"
     content = data_manager.get_module_content(table)
-    table_titles = [
-        "Employee Id",
-        "Employee Name",
-        "Year of Birth",]
+    table_titles = common.fetch_module_titles(module)
 
     return render_template(
         "content.html",
@@ -34,9 +32,7 @@ def show_hr_table():
 def add_item_hr():
     route_name = "human_resources"
     module = "Human Resources"
-    table_titles = [
-        "Employee Name",
-        "Year of Birth"]
+    table_titles = common.fetch_module_titles(module)[1:]
 
     if request.method == "POST":
         new_entry = {
@@ -50,7 +46,8 @@ def add_item_hr():
         "item.html",
         route_name=route_name,
         module=module,
-        table_titles=table_titles)
+        table_titles=table_titles,
+        page_action="ADD")
 
 
 @app.route("/human_resources/update_item", defaults={"id": None}, methods=["GET", "POST"])
@@ -59,9 +56,7 @@ def update_item_hr(id):
     route_name = "human_resources"
     module = "Human Resources"
     if request.method == "GET":
-        table_titles = [
-            "Employee Name",
-            "Year of Birth"]
+        table_titles = common.fetch_module_titles(module)[1:]
 
         item_id = str(request.args.get("item_id"))
         entry_details = data_manager.get_data_by_id(item_id, route_name)

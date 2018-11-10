@@ -1,5 +1,5 @@
 import database_common
-import random
+import common
 
 
 @database_common.connection_handler
@@ -47,30 +47,6 @@ def get_module_content(cursor, table):
         return table
 
 
-def generate_random_id(sql_ids):
-    list_of_ids = []
-    for item in sql_ids:
-        for key in item:
-            list_of_ids.append(item[key])
-
-    while True:
-        generated = ''
-        lowercase_letters = []
-        list_of_vowels = ["a", "b", "c", "d", "e", "f", "g", "h", "i",
-                          "j", "k", "l", "m", "n", "o", "p", "q", "r",
-                          "s", "t", "u", "v", "w", "x", "y", "z"]
-
-        for i in range(2):
-            lowercase_letters.append(random.choice(list_of_vowels))
-        generated_number = random.randint(10, 100)
-        generated = lowercase_letters[0] + "H" + str(generated_number) + "J" + lowercase_letters[1]
-
-        if generated in list_of_ids:
-            continue
-        else:
-            return generated + "#&"
-
-
 @database_common.connection_handler
 def generate_item_id(cursor, table):
     if table == "accounting":
@@ -109,7 +85,7 @@ def generate_item_id(cursor, table):
                         ''');
         item_ids = cursor.fetchall()
 
-    return generate_random_id(item_ids)
+    return common.generate_random_id(item_ids)
 
 
 @database_common.connection_handler

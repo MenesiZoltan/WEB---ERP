@@ -19,12 +19,7 @@ def show_store_table():
     module = "Store"
     table = "store"
     content = data_manager.get_module_content(table)
-    table_titles = [
-        "Item ID",
-        "Game Title",
-        "Manufacturer",
-        "Price",
-        "Stock"]
+    table_titles = common.fetch_module_titles(module)
 
     return render_template(
         "content.html",
@@ -37,11 +32,7 @@ def show_store_table():
 def add_item_store():
     route_name = "store"
     module = "Store"
-    table_titles = [
-        "Game Title",
-        "Manufacturer",
-        "Price",
-        "Stock"]
+    table_titles = common.fetch_module_titles(module)[1:]
 
     if request.method == "POST":
         new_entry = {
@@ -57,7 +48,8 @@ def add_item_store():
         "item.html",
         route_name=route_name,
         module=module,
-        table_titles=table_titles)
+        table_titles=table_titles,
+        page_action="ADD")
 
 
 @app.route("/store/update_item", defaults={"id": None}, methods=["GET", "POST"])
@@ -66,11 +58,7 @@ def update_item_store(id):
     route_name = "store"
     module = "Store"
     if request.method == "GET":
-        table_titles = [
-            "Game Title",
-            "Manufacturer",
-            "Price",
-            "Stock"]
+        table_titles = common.fetch_module_titles(module)[1:]
 
         item_id = str(request.args.get("item_id"))
         entry_details = data_manager.get_data_by_id(item_id, route_name)

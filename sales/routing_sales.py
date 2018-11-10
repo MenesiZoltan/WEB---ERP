@@ -1,6 +1,7 @@
 from server import app
 from flask import render_template, request, redirect
 import data_manager
+import common
 
 @app.route("/sales")
 def start_module_sales():
@@ -18,14 +19,7 @@ def show_sales_table():
     module = "Sales"
     table = "sales"
     content = data_manager.get_module_content(table)
-    table_titles = [
-        "ID",
-        "Title of Game Sold",
-        "Price",
-        "Month of Sale",
-        "Day of Sale",
-        "Year of Sale",
-        "Customer ID"]
+    table_titles = common.fetch_module_titles(module)
 
     return render_template(
         "content.html",
@@ -38,13 +32,7 @@ def show_sales_table():
 def add_item_sales():
     route_name = "sales"
     module = "Sales"
-    table_titles = [
-        "Title of Game Sold",
-        "Price",
-        "Month of Sale",
-        "Day of Sale",
-        "Year of Sale",
-        "Customer ID"]
+    table_titles = common.fetch_module_titles(module)[1:]
 
     if request.method == "POST":
         new_entry = {
@@ -62,7 +50,8 @@ def add_item_sales():
         "item.html",
         route_name=route_name,
         module=module,
-        table_titles=table_titles)
+        table_titles=table_titles,
+        page_action="ADD")
 
 
 @app.route("/sales/update_item", defaults={"id": None}, methods=["GET", "POST"])
@@ -71,13 +60,7 @@ def update_item_sales(id):
     route_name = "sales"
     module = "Sales"
     if request.method == "GET":
-        table_titles = [
-            "Title of Game Sold",
-            "Price",
-            "Month of Sale",
-            "Day of Sale",
-            "Year of Sale",
-            "Customer ID"]
+        table_titles = common.fetch_module_titles(module)[1:]
 
         item_id = str(request.args.get("item_id"))
         entry_details = data_manager.get_data_by_id(item_id, route_name)
